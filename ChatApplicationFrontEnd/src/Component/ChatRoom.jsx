@@ -16,6 +16,12 @@ const ChatRoom = () => {
           className="img-fluid rounded-circle border border-danger"
           style={{ width: "50px", height: "50px" }} // Set fixed size for the image
         />
+     <div className="ms-3">
+               <span className="d-block fw-bold">John Doe</span>
+               <span className="d-block" style={{ fontSize: "13px" }}>
+             online Status
+               </span>
+               </div>
         <div className="ms-auto">
           <button className="btn p-0 me-2" style={{ width: "35px", height: "35px" }}>
             <FaVideo />
@@ -30,7 +36,7 @@ const ChatRoom = () => {
         </div>
       </header>
       <div class="chatContainer m-2 d-flex flex-column ">
-  <p class="received p-2 rounded">Hi bro, how are you? n,kdbjhsjkhvkhdsukhkhdsgk hhjdvjvhdjvjdvjhdmjjdvhjhvdhvjvhdjvhkjdvhhvdhvdh</p>
+  <p class="received p-2 rounded">Hi bro, how are you? n,kdbjhsjkhvkhdsukhkhdsgk hhjdvjvhdjvjdvHi bro, how are you? n,kdbjhsjkhvkhdsukhkhdsgk hhjdvjvhdjvjdvHi bro, how are you? n,kdbjhsjkhvkhdsukhkhdsgk hhjdvjvhdjvjdvHi bro, how are you? n,kdbjhsjkhvkhdsukhkhdsgk hhjdvjvhdjvjdvHi bro, how are you? n,kdbjhsjkhvkhdsukhkhdsgk hhjdvjvhdjvjdvjhdmjjdvhjhvdhvjvhdjvhkjdvhhvdhvdh</p>
   <p class="sent p-2 rounded">Hi bro, I am fine!</p>
   <p class="received p-2 rounded">Hi bro, how are you? n,kdbjhsjkhvkhdsukhkhdsgk hhjdvjvhdjvjdvjhdmjjdvhjhvdhvjvhdjvhkjdvhhvdhvdh</p>
   <p class="sent p-2 rounded">Hi bro, I am fine!</p>

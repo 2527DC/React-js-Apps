@@ -1,5 +1,8 @@
 import ChatRoom from "./ChatRoom";
 import SideBar from "./SideBar";
+import { IoPeopleSharp } from "react-icons/io5";
+import { IoChatbox } from "react-icons/io5";
+import { IoSettingsSharp } from "react-icons/io5";
 
 const ChatApplication = () => {
   return (
@@ -8,18 +11,27 @@ const ChatApplication = () => {
         <div className="row h-100">
           <div className="col-md-4 h-100 d-flex flex-column">
             <div className="d-flex flex-row h-100">
-              {/* Left-aligned tools div */}
-              <div className="tools border border-primary  h-100" style={{ alignSelf: "flex-start", width: "16%" }}>
-                {/* Tool content goes here */}
+          
+              <div className="tools  d-flex flex-column   h-100" style={{ alignSelf: "flex-start", width: "14%" }}>
+                
+               <button className=" btn "> <IoPeopleSharp></IoPeopleSharp></button>
+               <button className=" btn "> <IoChatbox/> </button>
+               <button className=" btn "> <IoSettingsSharp/></button>
+               <img
+               src="src/assets/DSC00927.JPG"
+               alt="Profile"
+               className="img-fluid rounded-circle  mt-auto mb-3 "
+               style={{ width: "45px", height: "45px" }}
+             />
               </div>
-              {/* Sidebar next to tools */}
-              <div className=" d-flex flex-column border border-primary" style={{ width: "90%" }}>
+            
+              <div className=" d-flex flex-column" style={{ width: "90%" }}>
                 <SideBar />
               </div>
             </div>
           </div>
 
-          <div className="col-md-8 h-100 d-flex flex-column border border-primary">
+          <div className="col-md-8 h-100 d-flex flex-column ">
             <ChatRoom />
           </div>
         </div>

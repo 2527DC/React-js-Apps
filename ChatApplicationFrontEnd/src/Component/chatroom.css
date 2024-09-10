@@ -12,11 +12,15 @@
   
 }
 
+header{
+
+    background-color: #e0e0e0; 
+}
 footer {
   display: flex;
   align-items: center;
   padding: 1rem; 
-  background-color: #f8f9fa; 
+  background-color: #e0e0e0; 
 }
 
 
