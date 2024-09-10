@@ -1,0 +1,37 @@
+.chatRoomContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Makes the container take up the full height of the viewport */
+}
+
+/* input {
+    overflow: scroll;
+} */
+.chatContainer {
+  flex: 1; 
+  
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  padding: 1rem; 
+  background-color: #f8f9fa; 
+}
+
+
+  
+.received {
+    align-self: flex-start; 
+    background-color: #e0e0e0; 
+    color: black;
+  }
+  
+  .sent {
+    align-self: flex-end; 
+    background-color: #007bff; 
+    color: white;
+  }
+  .chatContainer{
+    overflow-x:hidden ;
+  }

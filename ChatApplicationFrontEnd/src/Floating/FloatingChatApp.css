@@ -1,0 +1,93 @@
+/* ChatApp.css */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 400px; /* Adjust as needed */
+    width: 300px;  /* Adjust as needed */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    position: absolute; /* Positioning for drag */
+    top: 50px; /* Initial position */
+    left: 50px; /* Initial position */
+    cursor: move; /* Indicate draggable area */
+    z-index: 1000; /* Make sure it's on top */
+  }
+  
+  .messages {
+    flex: 1;
+    padding: 16px;
+    background: #f9f9f9;
+    overflow-y: auto;
+  }
+  
+  .message {
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    max-width: 80%;
+    line-height: 1.5;
+  }
+  
+  .message.you {
+    background: #d1ffd1;
+    align-self: flex-end;
+  }
+  
+  .message.other {
+    background: #e0e0e0;
+    align-self: flex-start;
+  }
+  
+  .input-container {
+    display: flex;
+    padding: 8px;
+    border-top: 1px solid #ddd;
+    background: #fff;
+  }
+  
+  .input-container input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 8px;
+  }
+  
+  .input-container button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .input-container button:hover {
+    background: #0056b3;
+  }
+  
+  /* Floating Action Button (FAB) */
+  .fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .fab:hover {
+    background: #0056b3;
+  }
+  
