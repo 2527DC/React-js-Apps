@@ -3,8 +3,12 @@ import SideBar from "./SideBar";
 import { IoPeopleSharp } from "react-icons/io5";
 import { IoChatbox } from "react-icons/io5";
 import { IoSettingsSharp } from "react-icons/io5";
+import { useState } from "react";
 
 const ChatApplication = () => {
+   const [selectedUser, setSelectedUser] = useState(null);
+ 
+
   return (
     <>
       <div className="container-fluid vh-100">
@@ -26,13 +30,14 @@ const ChatApplication = () => {
               </div>
             
               <div className=" d-flex flex-column" style={{ width: "90%" }}>
-                <SideBar />
+                <SideBar onUserSelect={setSelectedUser} />
+              
               </div>
             </div>
           </div>
 
           <div className="col-md-8 h-100 d-flex flex-column ">
-            <ChatRoom />
+            <ChatRoom selectedUser={selectedUser}  />
           </div>
         </div>
       </div>

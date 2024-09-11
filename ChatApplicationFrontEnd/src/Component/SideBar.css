@@ -12,3 +12,7 @@ strong {
 }
 /* SideBar.css */
 
+.sideContainer{
+    overflow-x: hidden;
+  
+  } 
