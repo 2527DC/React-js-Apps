@@ -1,30 +1,18 @@
-
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { FaVideo } from 'react-icons/fa';
-import { TiUserAdd } from 'react-icons/ti';
-
-import './chatroom.css';
-import ChatFooter from './chatFooter';
-
+import { useContext } from "react";
+import { UserData } from "../Store/Userdata";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { TiUserAdd } from "react-icons/ti";
+import { FaVideo } from "react-icons/fa";
+import  ChatFooter  from './chatFooter'
 
 const ChatRoom = ({ selectedUser }) => {
-  const messageStore = {
-    1: [
-      { text: 'Hello, sxkjksjjhdjhjhasjhgvhsagcgafgfagfsaxgafgsffffffffffffffffffffffffffffffffffffffffffffffffhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhJohn!', timestamp: '2024-09-11T10:00:30Z', sender: 'user' },
-      { text: 'hi', timestamp: '2024-09-11T10:01:00Z', sender: 'received' }
-    ],
-    2: [
-      { text: 'Hi, Jane!', timestamp: '2024-09-11T10:05:30Z', sender: 'user' },
-      { text: 'Hello!', timestamp: '2024-09-11T10:06:00Z', sender: 'received' }
-    ]
-    // Add more users and their messages
-  };
+  const { message } = useContext(UserData);
 
   if (!selectedUser) {
     return <p>No user selected</p>;
   }
 
-  const selectedUserMessages = messageStore[selectedUser.id] ;
+  const selectedUserMessages = message[selectedUser.id] || [];
 
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -35,13 +23,13 @@ const ChatRoom = ({ selectedUser }) => {
     <div className="chatRoomContainer">
       <header className="d-flex align-items-center p-1 m-1">
         <img
-          src={selectedUser.img}
+          src={selectedUser.image}
           alt="Profile"
           className="img-fluid rounded-circle border border-danger"
           style={{ width: '50px', height: '50px' }}
         />
         <div className="ms-3">
-          <span className="d-block fw-bold">{selectedUser.name}</span>
+          <span className="d-block fw-bold">{selectedUser.username}</span>
           <span className="d-block" style={{ fontSize: '13px' }}>
             {selectedUser.status}
           </span>
@@ -60,21 +48,22 @@ const ChatRoom = ({ selectedUser }) => {
       </header>
 
       <div className="chatContainer d-flex flex-column">
-  {selectedUserMessages.map((msg, index) => (
-    <div
-      key={index}
-      className={`m-1 rounded ${msg.sender === 'user' ? 'sent' : 'received'}`}
-      style={{ maxWidth: '80%', alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start' }}
-    >
-      <p className='message p-1 m-1 d-flex flex-column'>
-        {msg.text}
-        <span className="timestamp ms-auto">{formatTimestamp(msg.timestamp)}</span>
-      </p>
-    </div>
-  ))}
-</div>
+        {selectedUserMessages.map((msg, index) => (
+          <div
+            key={index}
+            className={`m-1 rounded ${msg.sender === 'user' ? 'sent' : 'received'}`}
+            style={{ maxWidth: '80%', alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start' }}
+          >
+            <p className="message p-1 m-1 d-flex flex-column">
+              {msg.content}
+              <span className="timestamp ms-auto">{formatTimestamp(msg.timestamp)}</span>
+            </p>
+          </div>
+        ))}
+      </div>
 
-                 <ChatFooter></ChatFooter>
+<ChatFooter selectedUser={selectedUser}/>
+      {/* <ChatFooter selectedUser={selectedUser} /> */}
     </div>
   );
 };

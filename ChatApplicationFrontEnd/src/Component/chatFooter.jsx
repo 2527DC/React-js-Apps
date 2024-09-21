@@ -1,12 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
+
+import './chatroom.css';
+
+import { UserData } from '../Store/Userdata';
 import { MdEmojiEmotions } from 'react-icons/md';
 import { IoMdAdd } from 'react-icons/io';
 import { IoSend } from 'react-icons/io5';
 
-
-const ChatFooter = () => {
+const ChatFooter = ({ selectedUser }) => {
   const [message, setMessage] = useState("");
   const textareaRef = useRef(null);
+  const { stompClient, setMessage: updateMessage } = useContext(UserData);
 
   const handleInput = (e) => {
     const textarea = textareaRef.current;
@@ -15,6 +19,32 @@ const ChatFooter = () => {
     if (textarea) {
       textarea.style.height = 'auto';
       textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  };
+
+  const handleSendMessage = () => {
+    if (message.trim() && stompClient && selectedUser) {
+      const chatMessage = {
+        content: message,
+        sender: "user", // Replace with the actual sender's username if needed
+        receiverId: selectedUser.id, // Pass the recipient's ID
+        timestamp: new Date().toISOString() // Add timestamp
+      };
+
+      // Send the message through WebSocket
+      stompClient.send('/app/send', {}, JSON.stringify(chatMessage));
+
+      // Update local message state
+      updateMessage(prevMessages => ({
+        ...prevMessages,
+        [selectedUser.id]: [
+          ...(prevMessages[selectedUser.id] || []),
+          chatMessage
+        ]
+      }));
+
+      // Clear the textarea after sending the message
+      setMessage("");
     }
   };
 
@@ -35,25 +65,22 @@ const ChatFooter = () => {
         value={message}
         onChange={handleInput}
         style={{ 
-         
           minHeight: '40px', 
           maxHeight: '150px', 
           overflowY: 'auto', 
-       
         }}
         rows={1}
       ></textarea>
 
-      <button className="btn p-0 mx-1" style={{ width: '35px', height: '35px' }}>
+      <button className="btn p-0 mx-1" style={{ width: '35px', height: '35px' }} onClick={handleSendMessage}>
         <IoSend size={24} />
       </button>
-      <br />
-   
-      {/* CSS to hide scrollbar */}
+
       <style jsx>{`
         textarea::-webkit-scrollbar {
           display: none;
-        }`}</style>
+        }
+      `}</style>
     </footer>
   );
 };

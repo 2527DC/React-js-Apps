@@ -2,17 +2,14 @@ import { IoSearchSharp } from "react-icons/io5";
 import { TiUserAdd } from "react-icons/ti";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import "./SideBar.css";
+import { useContext } from "react";
+import {UserData } from "../Store/Userdata";
 
 const SideBar = ({onUserSelect}) => {
 
-  const users = [
-    { id: 1, name: 'John Doe', status: 'online', img: 'src/assets/DSC00927.JPG' },
-    { id: 2, name: 'Jane Smith', status: 'offline', img: 'src/assets/DSC00921.JPG' },
-    { id: 3, name: 'Alice Johnson', status: 'working', img: 'src/assets/DSC01174.JPG' },
-    { id: 4, name: 'John Doe', status: 'online', img: 'src/assets/DSC00927.JPG' },
-    { id: 5, name: 'Jane Smith', status: 'offline', img: 'src/assets/DSC00921.JPG' },
-    
-  ];
+ const {users} = useContext(UserData);
+
+  
 
   const handleUserClick = (user) => { 
     onUserSelect(user); // Pass selected user to parent component
@@ -66,13 +63,13 @@ const SideBar = ({onUserSelect}) => {
           onClick={() => handleUserClick(u)} // Handle user click
         >
           <img
-            src={u.img}
+            src={u.image}
             alt="Profile"
             className="img-fluid rounded-circle border border-danger"
             style={{ width: '50px', height: '50px' }}
           />
           <div className="ms-3">
-            <span className="d-block fw-bold">{u.name}</span>
+            <span className="d-block fw-bold">{u.username}</span>
             <span className="d-block" style={{ fontSize: '11px' }}>
               {u.status}
             </span>
