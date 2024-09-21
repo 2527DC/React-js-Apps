@@ -14,7 +14,7 @@ const SideBar = ({onUserSelect}) => {
     
   ];
 
-  const handleUserClick = (user) => {
+  const handleUserClick = (user) => { 
     onUserSelect(user); // Pass selected user to parent component
   };
 
@@ -73,7 +73,7 @@ const SideBar = ({onUserSelect}) => {
           />
           <div className="ms-3">
             <span className="d-block fw-bold">{u.name}</span>
-            <span className="d-block" style={{ fontSize: '13px' }}>
+            <span className="d-block" style={{ fontSize: '11px' }}>
               {u.status}
             </span>
           </div>

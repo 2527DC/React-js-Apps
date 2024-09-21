@@ -4,12 +4,8 @@
   height: 100vh; /* Makes the container take up the full height of the viewport */
 }
 
-/* input {
-    overflow: scroll;
-} */
 .chatContainer {
   flex: 1; 
-  
 }
 
 header{
@@ -26,16 +22,44 @@ footer {
 
   
 .received {
-    align-self: flex-start; 
+
     background-color: #e0e0e0; 
     color: black;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    word-wrap: break-word; 
   }
   
   .sent {
-    align-self: flex-end; 
+
     background-color: #007bff; 
     color: white;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    word-wrap: break-word; 
   }
+
+@media (max-width: 768px) {
+  .sent,
+  .received {
+    max-width: 90%; /* Adjust max width on small screens */
+  }
+}
   .chatContainer{
     overflow-x:hidden ;
   }
+
+
+  .message{
+    
+    font-size: 13px;
+  }
+  .timestamp {
+    align-self: flex-end; 
+    font-size: 9px;
+   
+  }
+
+

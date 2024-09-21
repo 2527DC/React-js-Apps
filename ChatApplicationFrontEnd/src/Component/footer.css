@@ -1,0 +1,12 @@
+textarea {
+    min-height: 40px;
+    max-height: 150px;
+    overflow-y: auto; 
+
+  }
+  
+  /* Hide scrollbar for WebKit-based browsers (Chrome, Safari, Opera) */
+  textarea::-webkit-scrollbar {
+    display: none;
+  }
+  

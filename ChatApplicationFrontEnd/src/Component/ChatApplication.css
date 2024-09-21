@@ -1,0 +1,38 @@
+/* General container settings */
+.container-fluid {
+    height: 100vh; /* Full screen height */
+  }
+  
+  .row {
+    height: 100%;
+  }
+  
+  /* Chatroom hidden on small screens */
+  .Chatroom {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Style for 'No user selected' message */
+  .no-user-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    font-size: 1.5rem;
+    color: #666;
+  }
+  
+  /* On small screens, hide the Chatroom by default */
+  @media (max-width: 768px) {
+    .Chatroom {
+      display: none;
+    }
+  
+    /* When a user is selected, display the Chatroom */
+    .Chatroom.d-block {
+      display: block;
+      width: 100%;
+    }
+  }
+  
