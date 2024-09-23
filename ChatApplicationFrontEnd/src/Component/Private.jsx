@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import SockJS from 'sockjs-client';
 import { over } from 'stompjs';
 
@@ -7,24 +7,42 @@ let stompClient = null;
 const ChatComponent = () => {
   const [message, setMessage] = useState('');
   const [recipient, setRecipient] = useState('');
-  const [sender, setSender] = useState(''); // Sender will be entered by the user
+  const [sender, setSender] = useState('');
   const [privateMessages, setPrivateMessages] = useState([]);
-  const [isSubscribed, setIsSubscribed] = useState(false); // Track if the user has subscribed
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [onlineUsers, setOnlineUsers] = useState([]); // Ensure it's an array
 
-  // Handle WebSocket connection and subscription
   const handleConnect = () => {
-    const socket = new SockJS('http://localhost:8080/ws');
+    const socket = new SockJS(`http://localhost:8080/ws?username=${sender}`);
     stompClient = over(socket);
     stompClient.connect({}, onConnected, onError);
-  };
 
+    socket.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+  };
+  
   const onConnected = () => {
     console.log('Connected to WebSocket');
     if (sender) {
-      // Subscribe to user-specific queue based on the username entered
       stompClient.subscribe(`/user/${sender}/queue/messages`, onMessageReceived);
       setIsSubscribed(true);
       console.log(`Subscribed to /user/${sender}/queue/messages`);
+      stompClient.send('/app/request-online-users', {}, {});
+    }
+    stompClient.subscribe('/topic/onlineUsers', onOnlineUsersReceived);
+    console.log('Subscribed to /topic/onlineUsers');
+    stompClient.send("/app/getOnlineUsers", {}, {});
+  };
+
+  const onOnlineUsersReceived = (payload) => {
+    const users = JSON.parse(payload.body);
+
+    // Ensure the users are an array
+    if (Array.isArray(users)) {
+      setOnlineUsers(users);
+    } else {
+      setOnlineUsers([]); // Reset to empty array if the format is incorrect
     }
   };
 
@@ -34,25 +52,21 @@ const ChatComponent = () => {
 
   const onMessageReceived = (payload) => {
     const message = JSON.parse(payload.body);
-    console.log('Received message:', message);
     setPrivateMessages(prevMessages => [...prevMessages, message]);
   };
 
-  // Send message to the recipient
   const sendMessage = () => {
     if (stompClient && message && recipient) {
       const chatMessage = {
         content: message,
         recipient: recipient,
-        sender: sender, // Use the sender that was entered
+        sender: sender,
       };
-
       stompClient.send('/app/send-private', {}, JSON.stringify(chatMessage));
-      setMessage(''); // Clear input after sending
+      setMessage('');
     }
   };
 
-  // Handle subscription when the sender (username) is provided
   const handleSubscribe = () => {
     if (sender) {
       handleConnect();
@@ -75,7 +89,6 @@ const ChatComponent = () => {
       ) : (
         <div className="chat-section">
           <h2>Private Chat</h2>
-          
           <div className="messages">
             {privateMessages.map((msg, index) => (
               <div key={index}>
@@ -101,6 +114,17 @@ const ChatComponent = () => {
           <button onClick={sendMessage}>Send Message</button>
         </div>
       )}
+
+      <div className="online">
+        <h1>Online Users</h1>
+        <ul>
+          {Array.isArray(onlineUsers) && onlineUsers.length > 0 ? (
+            onlineUsers.map((onl, ind) => <li key={ind}>{onl}</li>)
+          ) : (
+            <li>No users online</li>
+          )}
+        </ul>
+      </div>
     </div>
   );
 };
