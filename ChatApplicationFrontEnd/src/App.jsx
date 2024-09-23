@@ -4,6 +4,8 @@ import ChatApplication from './Component/ChatApplication';
 import { DataProvider } from './Store/Userdata';
 import React, { useEffect } from 'react';
 import Chat from './ChatApp';
+import GroupChat from './Component/GroupChat';
+import ChatComponent from './Component/Private';
 
 
 function App() {
@@ -13,10 +15,12 @@ function App() {
   return (
     <>
     
-   <DataProvider>
+   {/* <DataProvider>
    <ChatApplication></ChatApplication>
-   </DataProvider>
-{/* <Chat></Chat> */}
+   </DataProvider> */}
+<ChatComponent/>
+
+
     </>
   )
 }

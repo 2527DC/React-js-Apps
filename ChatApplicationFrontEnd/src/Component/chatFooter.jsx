@@ -10,20 +10,23 @@ import { IoSend } from 'react-icons/io5';
 const ChatFooter = ({ selectedUser }) => {
   const [message, setMessage] = useState("");
   const textareaRef = useRef(null);
-  const { stompClient, setMessage: updateMessage } = useContext(UserData);
+  const { sendMessage} = useContext(UserData);
 
+
+  
   const handleInput = (e) => {
     const textarea = textareaRef.current;
     setMessage(e.target.value);
 
     if (textarea) {
+      // this is for handling the size of the textarea box
       textarea.style.height = 'auto';
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
   };
 
   const handleSendMessage = () => {
-    if (message.trim() && stompClient && selectedUser) {
+    if (message.trim()&&selectedUser) {
       const chatMessage = {
         content: message,
         sender: "user", // Replace with the actual sender's username if needed
@@ -31,17 +34,10 @@ const ChatFooter = ({ selectedUser }) => {
         timestamp: new Date().toISOString() // Add timestamp
       };
 
-      // Send the message through WebSocket
-      stompClient.send('/app/send', {}, JSON.stringify(chatMessage));
+      // Send the message through WebSockete
+    
 
-      // Update local message state
-      updateMessage(prevMessages => ({
-        ...prevMessages,
-        [selectedUser.id]: [
-          ...(prevMessages[selectedUser.id] || []),
-          chatMessage
-        ]
-      }));
+      sendMessage(chatMessage )
 
       // Clear the textarea after sending the message
       setMessage("");
@@ -76,6 +72,7 @@ const ChatFooter = ({ selectedUser }) => {
         <IoSend size={24} />
       </button>
 
+       {/*  this is used to scroll hwithout the scroll bar when it overlaps  */}
       <style jsx>{`
         textarea::-webkit-scrollbar {
           display: none;

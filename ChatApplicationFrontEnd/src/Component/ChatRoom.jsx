@@ -6,13 +6,13 @@ import { FaVideo } from "react-icons/fa";
 import  ChatFooter  from './chatFooter'
 
 const ChatRoom = ({ selectedUser }) => {
-  const { message } = useContext(UserData);
+  const { privateMessages} = useContext(UserData);
 
   if (!selectedUser) {
     return <p>No user selected</p>;
   }
 
-  const selectedUserMessages = message[selectedUser.id] || [];
+  //const selectedUserMessages = privateMessages[selectedUser.id] || [];
 
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -48,7 +48,7 @@ const ChatRoom = ({ selectedUser }) => {
       </header>
 
       <div className="chatContainer d-flex flex-column">
-        {selectedUserMessages.map((msg, index) => (
+        {privateMessages.map((msg, index) => (
           <div
             key={index}
             className={`m-1 rounded ${msg.sender === 'user' ? 'sent' : 'received'}`}
