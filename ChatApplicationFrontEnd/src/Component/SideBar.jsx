@@ -9,6 +9,8 @@ const SideBar = ({onUserSelect}) => {
 
  const {users} = useContext(UserData);
 
+ console.log(users);
+ 
   
 
   const handleUserClick = (user) => { 

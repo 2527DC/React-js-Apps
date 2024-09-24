@@ -16,7 +16,7 @@ const ChatApplication = () => {
     setGroupchat(s);
     
   };
-
+ 
 
   return <>{
     groupchat ?

@@ -1,126 +1,133 @@
-import React, { createContext, useEffect, useState } from 'react';
-import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
-import axios from 'axios'; // Import Axios for fetching users
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from "react";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 
 export const UserData = createContext();
 const messageStore = {
   11: [
-    { text: 'Hello, John!', timestamp: '2024-09-11T10:00:30Z', sender: 'user' },
-    { text: 'Hi', timestamp: '2024-09-11T10:01:00Z', sender: 'received' },
+    { text: "Hello, John!", timestamp: "2024-09-11T10:00:30Z", sender: "user" },
+    { text: "Hi", timestamp: "2024-09-11T10:01:00Z", sender: "received" },
   ],
   22: [
-    { text: 'Hi, Jane!', timestamp: '2024-09-11T10:05:30Z', sender: 'user' },
-    { text: 'Hello!', timestamp: '2024-09-11T10:06:00Z', sender: 'received' },
+    { text: "Hi, Jane!", timestamp: "2024-09-11T10:05:30Z", sender: "user" },
+    { text: "Hello!", timestamp: "2024-09-11T10:06:00Z", sender: "received" },
   ],
 };
-const initialUsers = [
-  { id: 11, username: 'John Doe', status: 'online', image: 'src/assets/DSC00927.JPG' },
-  { id: 22, username: 'Jane Smith', status: 'offline', image: 'src/assets/DSC00921.JPG' },
- 
-];
-
-export const DataProvider = ({ children }) => {
-  const [users, setUsers] = useState(initialUsers);
-  const [stompClient, setStompClient] = useState(null);
-  const [isConnected, setIsConnected] = useState(false); 
+export const DataProvider = ({ children, isSubscribed }) => {
+  const [users, setUsers] = useState([]);
   const [message, setMessage] = useState(messageStore);
-  const [groupmessages, setGroupMessages] = useState([]);
+  const [groupMessages, setGroupMessages] = useState([]);
   const [privateMessages, setPrivateMessages] = useState([]);
-  let currentUser =null;
-  // Fetch users from the backend API
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/getUsers');
-        const combinedUsers = [...initialUsers, ...response.data];
-        setUsers(combinedUsers); 
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    };
+  const [isConnected, setIsConnected] = useState(false);
+  const [subName, setSubName] = useState("");
 
-    fetchUsers();
-  }, []);
+  const stompClientRef = useRef(null); // WebSocket client reference
+  const currentUser = useRef(null); // Store current user reference
 
   // WebSocket connection function
   useEffect(() => {
-    const connect =()=>{
-      
-     
-      const socket = new SockJS('http://localhost:8080/ws');
+    const connect = () => {
+      const socket = new SockJS("http://localhost:8080/ws");
       const client = Stomp.over(socket);
-      client.connect({}, (frame) => {
-        console.log('Connected: ' + frame);
-        setIsConnected(true);
-        setStompClient(client);
-    
-        // Subscribe to messages
-        const subscription = client.subscribe('/topic/messages', (message) => {
-          const newMessage = JSON.parse(message.body);
-         
-         setGroupMessages((prevMessages) => [...prevMessages, newMessage]);
-          // Update message state
-          // setMessage((prevMessages) => ({
-          //   ...prevMessages,
-          //   [newMessage.receiverId]: [
-          //     ...(prevMessages[newMessage.receiverId]||[] ),
-          //     newMessage,
-          //   ],
-          // }));
-          
-        });
 
-        client.subscribe(`/user/${currentUser}/queue/messages`, (message) => {
-          const newMessage = JSON.parse(message.body);
-          setPrivateMessages((prevMessages) => [...prevMessages, newMessage]);
-        })
-       
-        
-        // Cleanup function to unsubscribe
-        return () => {
-          subscription.unsubscribe();
-        };
-      }, (error) => {
-        console.error('Error connecting: ' + error);
-        setIsConnected(false);
-      });
-    
+      client.connect(
+        { username: subName },
+        (frame) => {
+          console.log("Connected: " + frame);
+          setIsConnected(true);
+          stompClientRef.current = client;
+
+          // Subscribe to online users topic
+          client.subscribe("/topic/onlineUsers", (message) => {
+            const onlineUsers = JSON.parse(message.body);
+            console.log("Online Users:", onlineUsers);
+            setUsers(onlineUsers);
+          });
+
+          // Send request to get initial online users
+          client.send("/app/getOnlineUsers", {}, {});
+
+          // Subscribe to group messages
+          const groupSubscription = client.subscribe("/topic/messages", (message) => {
+            const newMessage = JSON.parse(message.body);
+            setGroupMessages((prevMessages) => [...prevMessages, newMessage]);
+          });
+
+          // Subscribe to private messages for current user
+          const privateSubscription = client.subscribe(
+            `/user/${currentUser.current}/queue/messages`,
+            (message) => {
+              const newMessage = JSON.parse(message.body);
+              setPrivateMessages((prevMessages) => [...prevMessages, newMessage]);
+            }
+          );
+
+          // Cleanup function
+          return () => {
+            groupSubscription.unsubscribe();
+            privateSubscription.unsubscribe();
+          };
+        },
+        (error) => {
+          console.error("Error connecting: " + error);
+          setIsConnected(false);
+        }
+      );
+    };
+
+    if (isSubscribed && subName && !isConnected) {
+      connect(); // Only connect when subscribed and subName is set
     }
-   
-    connect()
-  
+
     return () => {
-      if (isConnected && client) {
-        client.disconnect(() => {
-          console.log('Disconnected');
+      if (stompClientRef.current && isConnected) {
+        stompClientRef.current.disconnect(() => {
+          console.log("Disconnected");
           setIsConnected(false);
         });
       }
     };
-
-  }, []);
+  }, [isSubscribed, subName, isConnected]);
 
   // Send message function
-  const sendMessage = (chatMessage) => {
-    if (stompClient && isConnected) {
-      stompClient.send('/app/send', {}, JSON.stringify(chatMessage));
-      
-      // Optimistically update message store for the sender if needed
-    }
-  };
-  const sendPrivateMessage = (chatMessage ,user) => {
+  const sendMessage = useCallback(
+    (chatMessage) => {
+      if (stompClientRef.current && isConnected) {
+        stompClientRef.current.send("/app/send", {}, JSON.stringify(chatMessage));
+      }
+    },
+    [isConnected]
+  );
 
-    currentUser=user
-    if (stompClient && isConnected) {
-      stompClient.send('/app/send-private', {}, JSON.stringify(chatMessage));
-      
-      // Optimistically update message store for the sender if needed
-    }
-  };
+  // Send private message function
+  const sendPrivateMessage = useCallback(
+    (chatMessage, user) => {
+      currentUser.current = user;
+      if (stompClientRef.current && isConnected) {
+        stompClientRef.current.send("/app/send-private", {}, JSON.stringify(chatMessage));
+      }
+    },
+    [isConnected]
+  );
 
   return (
-    <UserData.Provider value={{ message, users, groupmessages,sendMessage ,privateMessages ,sendPrivateMessage}}>
+    <UserData.Provider
+      value={{
+        message,
+        users,
+        groupMessages,
+        sendMessage,
+        privateMessages,
+        sendPrivateMessage,
+        setSubName,
+      }}
+    >
       {children}
     </UserData.Provider>
   );

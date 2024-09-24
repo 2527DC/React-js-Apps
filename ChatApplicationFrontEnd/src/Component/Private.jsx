@@ -29,7 +29,7 @@ const ChatComponent = () => {
     console.log('Connected to WebSocket' +frame);
 
     if (sender) {
-      stompClient.subscribe(`/user/${sender}/queue/messages`, onMessageReceived);
+      stompClient.subscribe(`/topic/${sender}/queue/messages`, onMessageReceived);
       setIsSubscribed(true);
       console.log(`Subscribed to /user/${sender}/queue/messages`);
       stompClient.send('/app/request-online-users', {}, {}); // Request online users
