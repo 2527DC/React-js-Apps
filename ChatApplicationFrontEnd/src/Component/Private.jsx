@@ -13,31 +13,37 @@ const ChatComponent = () => {
   const [onlineUsers, setOnlineUsers] = useState([]); // Ensure it's an array
 
   const handleConnect = () => {
-    const socket = new SockJS(`http://localhost:8080/ws?username=${sender}`);
+    const socket = new SockJS('http://localhost:8080/ws'); // WebSocket URL
     stompClient = over(socket);
-    stompClient.connect({}, onConnected, onError);
 
+    // Connect to WebSocket with username as header
+    stompClient.connect({ username: sender }, onConnected, onError);
+
+    // Handle socket closure
     socket.onclose = () => {
       console.log('WebSocket connection closed');
     };
   };
   
-  const onConnected = () => {
-    console.log('Connected to WebSocket');
+  const onConnected = ( frame) => {
+    console.log('Connected to WebSocket' +frame);
+
     if (sender) {
       stompClient.subscribe(`/user/${sender}/queue/messages`, onMessageReceived);
       setIsSubscribed(true);
       console.log(`Subscribed to /user/${sender}/queue/messages`);
-      stompClient.send('/app/request-online-users', {}, {});
+      stompClient.send('/app/request-online-users', {}, {}); // Request online users
     }
+
     stompClient.subscribe('/topic/onlineUsers', onOnlineUsersReceived);
     console.log('Subscribed to /topic/onlineUsers');
-    stompClient.send("/app/getOnlineUsers", {}, {});
+    stompClient.send('/app/getOnlineUsers', {}, {}); // Fetch initial online users
   };
 
   const onOnlineUsersReceived = (payload) => {
     const users = JSON.parse(payload.body);
-
+    console.log(users);
+    
     // Ensure the users are an array
     if (Array.isArray(users)) {
       setOnlineUsers(users);
@@ -63,13 +69,13 @@ const ChatComponent = () => {
         sender: sender,
       };
       stompClient.send('/app/send-private', {}, JSON.stringify(chatMessage));
-      setMessage('');
+      setMessage(''); // Clear message input
     }
   };
 
   const handleSubscribe = () => {
     if (sender) {
-      handleConnect();
+      handleConnect(); // Establish WebSocket connection
     }
   };
 
