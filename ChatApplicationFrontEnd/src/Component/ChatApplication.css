@@ -9,8 +9,11 @@
   
   /* Chatroom hidden on small screens */
   .Chatroom {
+    border-radius: 20px;
+    background-color: #e9dac8;
     display: flex;
     flex-direction: column;
+
   }
   
   /* Style for 'No user selected' message */
@@ -23,16 +26,15 @@
     color: #666;
   }
   
-  /* On small screens, hide the Chatroom by default */
-  @media (max-width: 768px) {
-    .Chatroom {
-      display: none;
-    }
-  
-    /* When a user is selected, display the Chatroom */
-    .Chatroom.d-block {
-      display: block;
-      width: 100%;
-    }
+ 
+
+    
+  .s-tools{
+
+    background-color: blueviolet;
+  border-top-right-radius: 30px;
+    border-left: 9px solid black;
+  border-bottom-right-radius: 30px;
+   
   }
   

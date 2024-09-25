@@ -3,16 +3,21 @@ import { UserData } from "../Store/Userdata";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { TiUserAdd } from "react-icons/ti";
 import { FaVideo } from "react-icons/fa";
-import  ChatFooter  from './chatFooter'
+import ChatFooter from './chatFooter';
 
 const ChatRoom = ({ selectedUser }) => {
-  const { privateMessages} = useContext(UserData);
+  const { privateMessages, subName } = useContext(UserData);
 
   if (!selectedUser) {
     return <p>No user selected</p>;
   }
 
-  //const selectedUserMessages = privateMessages[selectedUser.id] || [];
+  // Filter messages where the selected user is either the sender or recipient
+  const selectedUserMessages = privateMessages.filter(
+    (msg) =>
+      (msg.sender === selectedUser.username && msg.recipient === subName) ||
+      (msg.sender === subName && msg.recipient === selectedUser.username)
+  );
 
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -20,12 +25,12 @@ const ChatRoom = ({ selectedUser }) => {
   };
 
   return (
-    <div className="chatRoomContainer">
-      <header className="d-flex align-items-center p-1 m-1">
+    <div className="chatRoomContainer container">
+      <header className=" c-header d-flex align-items-center p-1 m-2">
         <img
           src={selectedUser.image}
           alt="Profile"
-          className="img-fluid rounded-circle border border-danger"
+          className="img-fluid rounded-circle border border-danger ms-3 m-1"
           style={{ width: '50px', height: '50px' }}
         />
         <div className="ms-3">
@@ -48,11 +53,11 @@ const ChatRoom = ({ selectedUser }) => {
       </header>
 
       <div className="chatContainer d-flex flex-column">
-        {privateMessages.map((msg, index) => (
+        {selectedUserMessages.map((msg, index) => (
           <div
             key={index}
-            className={`m-1 rounded ${msg.sender === 'user' ? 'sent' : 'received'}`}
-            style={{ maxWidth: '80%', alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start' }}
+            className={`m-1 rounded ${msg.sender !== selectedUser.username ? 'sent' : 'received'}`}
+            style={{ maxWidth: '80%', alignSelf: msg.sender !== selectedUser.username ? 'flex-end' : 'flex-start' }}
           >
             <p className="message p-1 m-1 d-flex flex-column">
               {msg.content}
@@ -62,8 +67,7 @@ const ChatRoom = ({ selectedUser }) => {
         ))}
       </div>
 
-<ChatFooter selectedUser={selectedUser}/>
-      {/* <ChatFooter selectedUser={selectedUser} /> */}
+      <ChatFooter selectedUser={selectedUser} />
     </div>
   );
 };

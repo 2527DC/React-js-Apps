@@ -22,8 +22,9 @@ function App() {
    {
   isSubscribed ?    <ChatApplication></ChatApplication>:<Subscribe  setIsSubscribed={setIsSubscribed}></Subscribe>
 }
- 
+ {/* <GroupChat></GroupChat> */}
    </DataProvider>
+   
 {/* <ChatComponent/> */}
 
 

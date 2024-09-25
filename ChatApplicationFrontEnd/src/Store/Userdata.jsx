@@ -21,15 +21,15 @@ const messageStore = {
 };
 export const DataProvider = ({ children, isSubscribed }) => {
   const [users, setUsers] = useState([]);
-  const [message, setMessage] = useState(messageStore);
+  
+  
   const [groupMessages, setGroupMessages] = useState([]);
   const [privateMessages, setPrivateMessages] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
   const [subName, setSubName] = useState("");
 
   const stompClientRef = useRef(null); // WebSocket client reference
-  const currentUser = useRef(null); // Store current user reference
-
+  
   // WebSocket connection function
   useEffect(() => {
     const connect = () => {
@@ -49,6 +49,8 @@ export const DataProvider = ({ children, isSubscribed }) => {
             console.log("Online Users:", onlineUsers);
             setUsers(onlineUsers);
           });
+ 
+          
 
           // Send request to get initial online users
           client.send("/app/getOnlineUsers", {}, {});
@@ -60,10 +62,12 @@ export const DataProvider = ({ children, isSubscribed }) => {
           });
 
           // Subscribe to private messages for current user
-          const privateSubscription = client.subscribe(
-            `/user/${currentUser.current}/queue/messages`,
+          const privateSubscription = client.subscribe( `/user/${subName}/queue/messages`,
+         
+             
             (message) => {
               const newMessage = JSON.parse(message.body);
+              console.log(`user ${subName} got subscribed `);
               setPrivateMessages((prevMessages) => [...prevMessages, newMessage]);
             }
           );
@@ -107,10 +111,13 @@ export const DataProvider = ({ children, isSubscribed }) => {
 
   // Send private message function
   const sendPrivateMessage = useCallback(
-    (chatMessage, user) => {
-      currentUser.current = user;
+    (chatMessage) => {
+    console.log(" private messah=ge method invoked");
+      
+    setPrivateMessages((prevMessages) => [...prevMessages, chatMessage])
       if (stompClientRef.current && isConnected) {
-        stompClientRef.current.send("/app/send-private", {}, JSON.stringify(chatMessage));
+        console.log(" private message inside the condition");
+        stompClientRef.current.send("/app/private-message", {}, JSON.stringify(chatMessage));
       }
     },
     [isConnected]
@@ -119,13 +126,13 @@ export const DataProvider = ({ children, isSubscribed }) => {
   return (
     <UserData.Provider
       value={{
-        message,
+        
         users,
         groupMessages,
         sendMessage,
         privateMessages,
         sendPrivateMessage,
-        setSubName,
+        setSubName,subName
       }}
     >
       {children}

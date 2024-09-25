@@ -8,7 +8,7 @@ const SideBarTool = ({ onGroupToggle }) => {
   };
 
   return (
-    <div className="tools d-flex flex-column h-100" style={{ alignSelf: "flex-start", width: "14%" }}>
+    <div className="tools d-flex flex-column mt-1 h-100" style={{ alignSelf: "flex-start", width: "14%" }}>
       <button className="btn" onClick={handleGroupChat}>
         <IoPeopleSharp />
       </button>
@@ -21,8 +21,8 @@ const SideBarTool = ({ onGroupToggle }) => {
       <img
         src="src/assets/DSC00927.JPG"
         alt="Profile"
-        className="img-fluid rounded-circle mt-auto mb-3"
-        style={{ width: "45px", height: "45px" }}
+        className="img-fluid rounded-circle   mt-auto mb-3"
+        style={{ width: "45px", height: "45px", marginLeft:'8px'}}
       />
     </div>
   );

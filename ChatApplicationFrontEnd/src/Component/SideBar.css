@@ -1,9 +1,11 @@
 
-
 header{
-
-    margin: 3%;
-    padding: 2px;
+    background-color: #c2c2c2;
+    border-radius: 14px;
+    width: 95%;
+    margin: 10px;
+    
+    
 }
 strong {
     font-size: larger;
@@ -16,3 +18,14 @@ strong {
     overflow-x: hidden;
   
   } 
+
+  .users{
+
+background-color: #a1a1c7cc;
+    border-radius: 10px;
+    
+    
+  }
+  .form-control {
+     border-radius: 10px;
+  }

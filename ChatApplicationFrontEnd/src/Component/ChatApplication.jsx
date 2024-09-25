@@ -25,17 +25,17 @@ const ChatApplication = () => {
     <div className="container-fluid vh-100">
       <div className="row h-100">
         {/* Sidebar - visible on all screen sizes unless a user is selected on small screens */}
-        <div className={`col-md-4 h-100 d-flex flex-column ${selectedUser ? "d-none d-md-flex" : ""}`}>
-          <div className="d-flex flex-row h-100">
+        <div className={`col-md-4  h-100 d-flex flex-column ${selectedUser ? "d-none d-md-flex" : ""}`}>
+          <div className=" s-tools d-flex flex-row h-100">
             <SideBarTool onGroupToggle={handleGroupChatChange}  />
-            <div className="d-flex flex-column" style={{ width: "100%" }}>
-              <SideBar onUserSelect={setSelectedUser} />
+            <div className="d-flex flex-column" style={{ width: "100%",  backgroundColor:'#afb1d7',borderRadius:"30px" }}>
+              <SideBar onUserSelect={setSelectedUser}  />
             </div>
           </div>
         </div>
 
         {/* ChatRoom - hidden on small screens unless a user is selected */}
-        <div className={`Chatroom  col-md-8 h-100 d-flex flex-column ${selectedUser ? "d-block" : "d-none d-md-flex"}`}>
+        <div className={`Chatroom    col-md-8 h-100 d-flex flex-column ${selectedUser ? "d-block" : "d-none d-md-flex"}`}>
           {selectedUser ? (
             <ChatRoom selectedUser={selectedUser}/>
           ) : (

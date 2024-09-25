@@ -13,7 +13,7 @@ const Subscribe = ({setIsSubscribed}) => {
         if (usernameRef.current.value.trim() !== "") {
             setIsSubscribed(true); // Set subscribed to true after entering username
             setSubName(usernameRef.current.value)
-            console.log("Subscribed with username:", usernameRef.current.value); // Optional: Log the username
+   
         } else {
             alert("Please enter a valid username."); // Optional: Alert for empty username
         }

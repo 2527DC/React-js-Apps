@@ -10,7 +10,7 @@ import { IoSend } from 'react-icons/io5';
 const ChatFooter = ({ selectedUser }) => {
   const [message, setMessage] = useState("");
   const textareaRef = useRef(null);
-  const { sendMessage} = useContext(UserData);
+  const { sendPrivateMessage, subName} = useContext(UserData);
 
 
   
@@ -26,26 +26,24 @@ const ChatFooter = ({ selectedUser }) => {
   };
 
   const handleSendMessage = () => {
-    if (message.trim()&&selectedUser) {
+    if (message.trim() && selectedUser) {
       const chatMessage = {
         content: message,
-        sender: "user", // Replace with the actual sender's username if needed
-        receiverId: selectedUser.id, // Pass the recipient's ID
-        timestamp: new Date().toISOString() // Add timestamp
+        sender: subName,
+        recipient: selectedUser.username,
+        timestamp: new Date().toISOString(),
       };
-
-      // Send the message through WebSockete
-    
-
-      sendMessage(chatMessage )
-
+  
+      sendPrivateMessage(chatMessage); // Update the context
+  
       // Clear the textarea after sending the message
       setMessage("");
     }
   };
+  
 
   return (
-    <footer className="d-flex align-items-center p-2 border-top">
+    <footer className="d-flex align-items-center p-2 border-top m-2">
       <button className="btn p-0 mx-1" style={{ width: '35px', height: '35px' }}>
         <MdEmojiEmotions size={24} />
       </button>

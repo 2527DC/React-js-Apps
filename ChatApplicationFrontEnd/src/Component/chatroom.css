@@ -8,15 +8,14 @@
   flex: 1; 
 }
 
-header{
 
-    background-color: #e0e0e0; 
-}
 footer {
   display: flex;
   align-items: center;
   padding: 1rem; 
-  background-color: #e0e0e0; 
+  background-color: #c2c2c2; 
+  border-radius: 20px;
+  width: 88%;
 }
 
 
@@ -30,7 +29,7 @@ footer {
     height: auto;
     word-wrap: break-word; 
   }
-src/assets/DSC00921.JPG
+
   .sent {
 
     background-color: #007bff; 
