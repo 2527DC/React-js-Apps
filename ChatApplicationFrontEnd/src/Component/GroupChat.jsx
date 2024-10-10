@@ -27,7 +27,7 @@ const GroupChat = ({ onExit }) => {
 
   return (
     <>
-      <div className="container mt-5">
+      <div className="container  mt-4">
         <div
           className="group-chat m-1"
           style={{
@@ -39,7 +39,7 @@ const GroupChat = ({ onExit }) => {
         >
           <header className=" c-header d-flex align-items-center p-1 m-2">
           <button
-                className=" exit  btn p-0"
+                className=" exit  btn p-0 "
                 style={{ width: "40px", height: "40px" }}
                 onClick={onExit} >
                 X
