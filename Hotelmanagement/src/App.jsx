@@ -1,15 +1,16 @@
-import AdminApp from "../Adminpannel/AdminApp";
+import Body from "./components/Body";
 
-
+// import "./App.css";
 
 const App = () => {
+  return (
+    <>
 
-  
-  return<>
-
-  <AdminApp></AdminApp>
-  </>
-}
-
+   <Body />
+   
+      
+    </>
+  );
+};
 
 export default App;

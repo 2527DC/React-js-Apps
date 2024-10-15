@@ -1,0 +1,25 @@
+.first-section{
+   
+    background-size: cover; /* Makes the image cover the entire area */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    height: 500px;
+    
+}
+.welcome{
+    margin-top: 120px;
+    background-color: transparent;
+}
+
+.man {
+    background-color: aqua;
+}
+
+.bi{
+    background-size: cover; /* Makes the image cover the entire area */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat;
+ 
+}
+
+
