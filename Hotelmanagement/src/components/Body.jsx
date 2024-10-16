@@ -20,24 +20,22 @@ const Body = () => {
 
       <div className="second-session m-5 mt-1 ">
         <div className="row   mt-1">
-          <div className="col-md-5  ">
-            <h1 style={{ color: "#2f4970" }}>ABOUT US</h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Provident suscipit magni quam, et ipsum ex maiores doloremque
-              optio a cum consequatur, iusto architecto minima tenetur sunt!
-              Natus maxime repellat beatae?Lorem ipsum dolor sit amet
-              consectetur, adipisicing elit. Provident suscipit magni quam, et
-              ipsum ex maiores doloremque optio a cum consequatur, iusto
-              architecto minima tenetur sunt! Natus maxime repellat beatae?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Provident suscipit magni quam, et ipsum ex maiores doloremque
-              optio a cum consequatur, iusto architecto minima tenetur sunt!
-              Natus maxime repellat beatae?
-            </p>
-          </div>
+        <div className="col-md-5 bg-cb-mlight">
+  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-red-400 font-extrabold mt-6 inline-block">
+    ABOUT US
+  </h1>
+  <p className="mt-6">
+    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident suscipit
+    magni quam, et ipsum ex maiores doloremque optio a cum consequatur, iusto
+    architecto minima tenetur sunt! Natus maxime repellat beatae?
+  </p>
+  <p className="mt-4">
+    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident suscipit
+    magni quam, et ipsum ex maiores doloremque optio a cum consequatur, iusto
+    architecto minima tenetur sunt! Natus maxime repellat beatae?
+  </p>
+</div>
+
           <div className="col-sm-7 d-sm-block ">
             <div className="row h-50 ">
               <div
