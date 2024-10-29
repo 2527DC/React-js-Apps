@@ -1,54 +1,46 @@
-/* Default transparent navbar */
+/* Navbar.css */
+
+/* Custom nav-link class */
+.nav-link {
+    @apply text-blue-600 hover:text-gray-300 transition-colors duration-300 font-bold;
+}
+
+/* Other existing CSS remains unchanged */
 .navbar {
-    transition: background-color ,0.5s ease-in-out, height 1s ease-in-out;
-    background-color:  blue transparent black transparent;
+    transition: background-color 0.5s ease-in-out, height 1s ease-in-out;
     height: 70px; 
-    
-  }
-  
-  /* Navbar when scrolled with animation */
-  .navbar.scrolled {
-    background-color: rgba(0, 0, 0, 0.9); /* Solid background */
+}
+
+.navbar.scrolled {
+    background-color: rgba(0, 0, 0, 0.9);
     animation: expandNavbar 0.9s forwards;
-  }
-  
-  /* Keyframe for smooth height expansion and return to normal */
-  @keyframes expandNavbar {
+}
+
+@keyframes expandNavbar {
     0% {
-      height: 70px;
+        height: 70px;
     }
     30% {
-      height: 100px; /* Increase height */
+        height: 100px;
     }
     30% {
-        height: 40px; /* Increase height */
-      }
+        height: 40px;
+    }
     20% {
-        height: 10px; /* Increase height */
-      }
-    100% {
-      height: 70px; /* Back to normal height */
+        height: 10px;
     }
-  }
+    100% {
+        height: 70px;
+    }
+}
 
-  
-  
-  /* Optional: Additional navbar styling */
-  .navbar .nav-link {
-    color: rgb(59, 39, 235);
-    transition: color 0.3s ease-in-out;
-    font-weight: bold;
-  }
-  
-  .navbar.scrolled .nav-link {
-    color: lightgray;
-
-
-  }
-  
-
-
-.navbar-brand{
-
+.navbar-brand {
     color: #4d5761;
+}
+.nav-link {
+  color: #f0f0f0;
+}
+
+.nav-link:hover {
+  color: #d0eaff; /* Slightly lighter blue on hover */
 }
