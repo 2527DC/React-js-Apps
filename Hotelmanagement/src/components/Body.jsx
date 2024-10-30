@@ -32,6 +32,20 @@ const Body = () => {
               Provident suscipit magni quam, et ipsum ex maiores doloremque
               optio a cum consequatur, iusto architecto minima tenetur sunt!
               Natus maxime repellat beatae?
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Provident suscipit magni quam, et ipsum ex maiores doloremque
+              optio a cum consequatur, iusto architecto minima tenetur sunt!
+              Natus maxime repellat beatae?
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Provident suscipit magni quam, et ipsum ex maiores doloremque
+              optio a cum consequatur, iusto architecto minima tenetur sunt!
+              Natus maxime repellat beatae?
+            </p>
+            <p className="mt-4">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Provident suscipit magni quam, et ipsum ex maiores doloremque
+              optio a cum consequatur, iusto architecto minima tenetur sunt!
+              Natus maxime repellat beatae?
             </p>
             <p className="mt-4">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit.
@@ -40,7 +54,7 @@ const Body = () => {
               Natus maxime repellat beatae?
             </p>
           </div>
-          <div className="col-sm-7 d-sm-block h-50 ">
+          <div className="col-sm-7 d-sm-block h-50 mt-3 ">
             <Carousel />
           </div>
         </div>

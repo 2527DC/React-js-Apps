@@ -10,8 +10,7 @@ const Section3 = () => {
     { id: 6, title: "Card 6", image: "public/2br1.jpg", description: "Description for card 5.", category: "Standard" },
     { id: 7, title: "Card 7", image: "public/2br1.jpg", description: "Description for card 5.", category: "Standard" },
     { id: 8, title: "Card 8", image: "public/2br1.jpg", description: "Description for card 5.", category: "Standard" },
-    { id: 9, title: "Card 8", image: "public/2br1.jpg", description: "Description for card 5.", category: "Standard" },
-
+    { id: 9, title: "Card 9", image: "public/2br1.jpg", description: "Description for card 5.", category: "Standard" },
   ];
 
   const [filter, setFilter] = useState('All');
@@ -32,10 +31,13 @@ const Section3 = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center">
+      {/* Responsive grid with 3 columns on large screens, 2 on medium, and 1 on small screens */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1   ">
         {filteredCards.map((data) => (
-          <div className="card m-2" style={{ width: "calc(25% - 16px)" }} key={data.id}>
-            <img src={data.image} className="card-img-top" alt={data.title} />
+          <div className="card m-2" key={data.id}>
+            <div className="h-48 w-full overflow-hidden">
+              <img src={data.image} className="object-cover h-full w-full" alt={data.title} />
+            </div>
             <div className="card-body">
               <h5 className="card-title">{data.title}</h5>
               <p className="card-text">{data.description}</p>
