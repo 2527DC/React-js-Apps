@@ -1,8 +1,9 @@
-import Header from "./Header";
+import Navbar from "./NavBar";
+
 
 const Body = () => {
   return <>
- <Header></Header>
+<Navbar></Navbar>
   
   </>;
 };
