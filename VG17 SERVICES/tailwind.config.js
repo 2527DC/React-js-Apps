@@ -2,10 +2,14 @@
 export default {
   content: [
   
-    "./src/**/*.{js,jsx}",
+    "./src/**/*.{js,jsx,}",
   ],
   theme: {
     extend: {
+
+      spacing: {
+        '100': '600px',
+      },
 
       colors :{
         cb:{
